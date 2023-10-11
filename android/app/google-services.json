@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "1027558657248",
+    "project_id": "amigosdev-fcb01",
+    "storage_bucket": "amigosdev-fcb01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027558657248:android:04ee70b36c3cf3ea0b1485",
+        "android_client_info": {
+          "package_name": "com.example.alibhaiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027558657248-6ua8817vmls93b4glnurlrfbf4u4i3j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOZ63OruJMK3GwpX19OtYpUteGfHXLp7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027558657248-6ua8817vmls93b4glnurlrfbf4u4i3j0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1027558657248-jmkqr1aj8vecagqfr2eb59n1jf18stjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.speedtest.internetspeed.test.wifi.speedtest.internetspeedtest.netspeed"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027558657248:android:048837f18ca82be00b1485",
+        "android_client_info": {
+          "package_name": "com.speedtest.internetspeed.test.wifi.speedtest.internetspeedtest.netspeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027558657248-6ua8817vmls93b4glnurlrfbf4u4i3j0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOZ63OruJMK3GwpX19OtYpUteGfHXLp7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027558657248-6ua8817vmls93b4glnurlrfbf4u4i3j0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1027558657248-jmkqr1aj8vecagqfr2eb59n1jf18stjq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.speedtest.internetspeed.test.wifi.speedtest.internetspeedtest.netspeed"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
