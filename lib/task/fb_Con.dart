@@ -285,22 +285,25 @@
 //   // }
 // }
 
-
-
 // ignore_for_file: prefer_typing_uninitialized_variables, unused_local_variable
 
-import 'dart:math';
+import 'dart:developer';
 
+import 'package:alibhaiapp/admin/adminHome.dart';
 import 'package:alibhaiapp/task/auth_provider.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/task/motion_toast.dart';
 import 'package:alibhaiapp/task/navi_bar.dart';
+import 'package:alibhaiapp/user/userHomeScreen.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
+import '../admin/adminBottomBar.dart';
+import '../services/shearedpref_service.dart';
 
 class AuthServices {
   static var errorMessage;
@@ -315,11 +318,30 @@ class AuthServices {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-                AppRoutes.pushAndRemoveUntil(
-                  context,
-                  PageTransitionType.fade,
-                  MyNavigationBarScreen(),
-                ),
+                if (email == 'admin@gmail.com' || password == 'admin12')
+                  {
+                    log('Admin Side '),
+                    ShearedprefService.setUserTpe('admin'),
+                    ShearedprefService.setUserIDStore(uid.user!.uid),
+                    ShearedprefService.setUserLoggedIn(true),
+                    AppRoutes.pushAndRemoveUntil(
+                      context,
+                      PageTransitionType.fade,
+                      const AdminBottomNavigationBarScreen(),
+                    ),
+                  }
+                else
+                  {
+                    log('User Side '),
+                    ShearedprefService.setUserTpe('user'),
+                    ShearedprefService.setUserIDStore(uid.user!.uid),
+                    ShearedprefService.setUserLoggedIn(true),
+                    AppRoutes.pushAndRemoveUntil(
+                      context,
+                      PageTransitionType.fade,
+                      const UserHomeScreen(),
+                    ),
+                  },
                 MyMotionToast.success(
                   context,
                   "Welcome",
@@ -484,6 +506,17 @@ class AuthServices {
       // KSnackBar().errorSnackBar("Error occurred using Google Sign In. Try again.");
       return "error";
     }
+  }
+
+// SignOut
+  static Future signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut().then((value) {
+      AppRoutes.pushAndRemoveUntil(
+        context,
+        PageTransitionType.fade,
+        const Login(),
+      );
+    });
   }
 
   // static postDetailsToFirestore(

@@ -1,4 +1,4 @@
-import 'package:alibhaiapp/slideablewidget.dart';
+import 'package:alibhaiapp/widgets/slideablewidget.dart';
 import 'package:alibhaiapp/utils/images.dart';
 import 'package:flutter/material.dart';
 

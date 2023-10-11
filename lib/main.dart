@@ -1,4 +1,6 @@
 import 'package:alibhaiapp/homescreen.dart';
+import 'package:alibhaiapp/services/shearedpref_service.dart';
+import 'package:alibhaiapp/splashScreen.dart';
 import 'package:alibhaiapp/task/singUp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import 'provider/allPovider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  await ShearedprefService.initialize();
   runApp(const MyApp());
 }
 
@@ -35,7 +37,8 @@ class MyApp extends StatelessWidget {
               home:
                   // MyNavigationBarScreen(),
                   // Login(),
-                  SignupPage(),
+                  // SignupPage(),
+             const     SplashScreen(),
               // const SplashScreen(),
             ));
       },
