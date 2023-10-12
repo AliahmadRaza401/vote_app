@@ -1,4 +1,4 @@
-import 'package:alibhaiapp/task/auth_provider.dart';
+import 'package:alibhaiapp/provider/auth_provider.dart';
 import 'package:alibhaiapp/task/fb_Con.dart';
 import 'package:alibhaiapp/task/singUp.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';

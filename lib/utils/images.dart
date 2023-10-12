@@ -5,6 +5,7 @@ class AppImages {
   static const four = "assets/pic/4.png";
   static const five = "assets/pic/5.png";
   static const logo = "assets/pic/logo_t.jpeg";
+  static const voteImage = "assets/pic/vote.jpeg";
 
 }
 
