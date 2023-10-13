@@ -103,25 +103,25 @@ class _LoginState extends State<Login> {
                         });
                       }),
                       const SizedBox(height: 20.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("If you don't have an account? ",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          GestureDetector(
-                            onTap: () {
-                              AppRoutes.push(context,
-                                  PageTransitionType.rightToLeft, SignupPage());
-                            },
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Text("If you don't have an account? ",
+                      //         style: TextStyle(fontWeight: FontWeight.bold)),
+                      //     GestureDetector(
+                      //       onTap: () {
+                      //         AppRoutes.push(context,
+                      //             PageTransitionType.rightToLeft, SignupPage());
+                      //       },
+                      //       child: Text(
+                      //         "Register",
+                      //         style: TextStyle(
+                      //             color: Colors.blue,
+                      //             fontWeight: FontWeight.bold),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
