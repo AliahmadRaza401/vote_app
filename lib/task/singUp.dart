@@ -17,10 +17,14 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final TextEditingController nameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController cPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  FocusNode nameFocusNode = FocusNode();
 
   FocusNode emailFocusNode = FocusNode();
   FocusNode pasFocusNode = FocusNode();
@@ -66,6 +70,7 @@ class _SignupPageState extends State<SignupPage> {
     Color cPasColor = cpasFocusNode.hasFocus ? Colors.green : Colors.grey;
 
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: Container(
           height: double.infinity,
@@ -92,6 +97,15 @@ class _SignupPageState extends State<SignupPage> {
                   FadeInUp(
                     child: Column(
                       children: [
+                        customInputField(
+                          nameController,
+                          nameFocusNode,
+                          "Name",
+                          MultiValidator([
+                            authProvider.requiredValidator,
+                          ]),
+                        ),
+                        SizedBox(height: 12.0),
                         customInputField(
                           emailController,
                           emailFocusNode,
@@ -122,26 +136,26 @@ class _SignupPageState extends State<SignupPage> {
                             cpass = !cpass;
                           });
                         }),
-                        SizedBox(height: 16.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("If you don't have an account? ",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            GestureDetector(
-                              onTap: () {
-                                AppRoutes.push(context,
-                                    PageTransitionType.rightToLeft, Login());
-                              },
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // SizedBox(height: 16.0),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     Text("If you don't have an account? ",
+                        //         style: TextStyle(fontWeight: FontWeight.bold)),
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         AppRoutes.push(context,
+                        //             PageTransitionType.rightToLeft, Login());
+                        //       },
+                        //       child: Text(
+                        //         "Login",
+                        //         style: TextStyle(
+                        //             color: Colors.blue,
+                        //             fontWeight: FontWeight.bold),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
@@ -149,26 +163,6 @@ class _SignupPageState extends State<SignupPage> {
                   FadeInUp(
                     child: Column(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Accept Terms and Conditions",
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Checkbox(
-                              value: _isChecked,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _isChecked = value ?? false;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
                         SizedBox(height: 16.0),
                         Center(
                           child: loading == true
@@ -183,6 +177,7 @@ class _SignupPageState extends State<SignupPage> {
                                       if (password == confirmPassword) {
                                         AuthServices.signUp(
                                             context,
+                                            nameController.text,
                                             emailController.text,
                                             passwordController.text);
                                       } else {
@@ -215,7 +210,7 @@ class _SignupPageState extends State<SignupPage> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Sign Up',
+                                        'Add User',
                                         style: TextStyle(
                                           color: Colors.white, // Text color
                                           fontSize: 18.0, // Text font size

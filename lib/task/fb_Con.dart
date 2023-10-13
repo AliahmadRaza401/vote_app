@@ -297,6 +297,7 @@ import 'package:alibhaiapp/task/navi_bar.dart';
 import 'package:alibhaiapp/user/userHomeScreen.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -381,6 +382,7 @@ class AuthServices {
   // SignUp-----------------------------------------
   static Future signUp(
     BuildContext context,
+    String name,
     String email,
     String pass,
   ) async {
@@ -395,9 +397,13 @@ class AuthServices {
           .createUserWithEmailAndPassword(email: email, password: pass)
           .then((value) => {
                 print("User Created_______________________"),
+                FirebaseFirestore.instance.collection('users').doc().set({
+                  'name': name,
+                  'email': email,
+                  "password": pass,
+                }),
                 _authProvider.isLoading(false),
-                AppRoutes.pushAndRemoveUntil(
-                    context, PageTransitionType.fade, Login()),
+                AppRoutes.pop(context),
                 AppToast('User Created Successfully', true),
               })
           .catchError((e) {

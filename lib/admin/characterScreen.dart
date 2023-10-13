@@ -40,7 +40,19 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    'Character ',
+                    style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -104,9 +116,10 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                       onChanged: (e) {
                         print(charList.length);
                         searchList = charList
-                            .where((element) =>
-                                element['voteName'].toString().toLowerCase() ==
-                                e.toString().toLowerCase())
+                            .where((element) => element['name']
+                                .toString()
+                                .toLowerCase()
+                                .contains(e.toString().toLowerCase()))
                             .toList();
                         setState(() {});
                       },
@@ -164,7 +177,7 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                                   gridDelegate:
                                       SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount:
-                                        4, // number of items in each row
+                                        5, // number of items in each row
                                     mainAxisSpacing:
                                         8.0, // spacing between rows
                                     crossAxisSpacing:

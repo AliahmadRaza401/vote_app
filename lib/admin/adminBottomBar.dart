@@ -1,3 +1,4 @@
+import 'package:alibhaiapp/admin/user_screen.dart';
 import 'package:flutter/material.dart';
 import '../task/fb_Con.dart';
 import 'adminHome.dart';
@@ -15,9 +16,10 @@ class AdminBottomNavigationBarScreen extends StatefulWidget {
 class _AdminBottomNavigationBarScreenState
     extends State<AdminBottomNavigationBarScreen> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomeAdminScreen(),
     AdminCharacterScreen(),
+    UserScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -41,6 +43,10 @@ class _AdminBottomNavigationBarScreenState
             BottomNavigationBarItem(
                 icon: Icon(Icons.how_to_vote),
                 label: 'Character',
+                backgroundColor: Colors.white),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person_2),
+                label: 'Users',
                 backgroundColor: Colors.white),
           ],
           type: BottomNavigationBarType.shifting,
