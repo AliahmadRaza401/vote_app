@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/utils/images.dart';
@@ -5,6 +7,7 @@ import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:intl/intl.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   const HomeAdminScreen({super.key});
@@ -44,17 +47,17 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
                   width: MediaQuery.of(context).size.width,
                   // height: MediaQuery.of(context).size.height,
-                  color: Color.fromARGB(255, 213, 219, 222),
+                  color: const Color.fromARGB(255, 213, 219, 222),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 0, right: 0),
+                        margin: const EdgeInsets.only(top: 0, right: 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Dashboard',
                               style: TextStyle(
                                 fontSize: 27,
@@ -69,7 +72,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                                     const Login(),
                                   );
                                 },
-                                icon: Icon(Icons.logout))
+                                icon: const Icon(Icons.logout))
                           ],
                         ),
                       ),
@@ -115,65 +118,68 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                       ),
                       // Top Character
                       topFiveCherecter(snapshot.data!.docs),
+                      //  Character Popularity
                       Container(
-                        margin: EdgeInsets.only(top: 30, right: 10, left: 10),
+                        margin:
+                            const EdgeInsets.only(top: 30, right: 10, left: 10),
                         padding: const EdgeInsets.only(top: 15, left: 15),
                         height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          color: Color.fromARGB(180, 100, 200, 200),
+                          color: const Color.fromARGB(180, 100, 200, 200),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(
+                            const Text(
                               "Character Popularity",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Container(
-                                  height: 40,
-                                  width: 100,
-                                  margin: EdgeInsets.only(top: 10, right: 10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Morning",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 40,
-                                  width: 110,
-                                  margin: EdgeInsets.only(top: 10, right: 10),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "Afternoon",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            characterPopularity(snapshot.data!.docs),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            //   children: [
+                            //     Container(
+                            //       height: 40,
+                            //       width: 100,
+                            //       margin: const EdgeInsets.only(top: 10, right: 10),
+                            //       decoration: BoxDecoration(
+                            //           color: Colors.white,
+                            //           borderRadius: BorderRadius.circular(30)),
+                            //       child: const Padding(
+                            //         padding: EdgeInsets.all(8.0),
+                            //         child: Text(
+                            //           "Morning",
+                            //           style: TextStyle(
+                            //             fontSize: 20,
+                            //             fontWeight: FontWeight.w500,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //     Container(
+                            //       height: 40,
+                            //       width: 110,
+                            //       margin: EdgeInsets.only(top: 10, right: 10),
+                            //       decoration: BoxDecoration(
+                            //           color: Colors.white,
+                            //           borderRadius: BorderRadius.circular(30)),
+                            //       child: Padding(
+                            //         padding: const EdgeInsets.all(8.0),
+                            //         child: Text(
+                            //           "Afternoon",
+                            //           style: TextStyle(
+                            //             fontSize: 20,
+                            //             fontWeight: FontWeight.w500,
+                            //           ),
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
@@ -494,5 +500,46 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
         ],
       ),
     );
+  }
+
+  Widget characterPopularity(
+    List<QueryDocumentSnapshot<Object?>> voteList,
+  ) {
+    int maxScoreIndex = -1;
+    int maxScore = -1;
+
+    for (int i = 0; i < voteList.length; i++) {
+      int score =int.parse(voteList[i]["totalVote"]) ;
+      Timestamp timestamp = voteList[i]["votingDate"];
+
+      // Check if the timestamp is in the morning
+      if (isMorningTimestamp(timestamp.toString())) {
+        if (score > maxScore) {
+          maxScore = score;
+          maxScoreIndex = i;
+        }
+      }
+    }
+
+    if (maxScoreIndex != -1) {
+      log("The index with the maximum score in the morning is $maxScoreIndex");
+    } else {
+      log("No entries with morning timestamps found.");
+    }
+
+    return Column(
+      children: [
+        Text('Morning Votes: '),
+      ],
+    );
+  }
+
+  bool isMorningTimestamp(String timestamp) {
+    // Extract the time part from the timestamp
+    String timePart = timestamp.split(" at ")[1];
+    // Extract the hour part
+    int hour = int.parse(timePart.split(":")[0]);
+    // Check if it's in the morning (you can adjust the range as needed)
+    return hour >= 6 && hour < 12;
   }
 }
