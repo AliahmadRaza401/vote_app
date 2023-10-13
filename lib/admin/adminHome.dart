@@ -447,7 +447,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget topFiveCherecter(
     List<QueryDocumentSnapshot<Object?>> voteList,
   ) {
-    voteList.sort((a, b) => b['totalVote'].compareTo(a['totalVote']));
+    voteList.sort((a, b) => int.parse(b['totalVote'].toString())
+        .compareTo(int.parse(a['totalVote'].toString())));
 
     // Extract the top 5 names
     List top5Names = voteList.take(5).map((item) => item['voteName']).toList();
