@@ -40,7 +40,7 @@ class _AdminBottomNavigationBarScreenState
                 backgroundColor: Colors.white),
             BottomNavigationBarItem(
                 icon: Icon(Icons.how_to_vote),
-                label: 'Vote',
+                label: 'Character',
                 backgroundColor: Colors.white),
           ],
           type: BottomNavigationBarType.shifting,
