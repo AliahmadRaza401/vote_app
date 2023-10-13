@@ -332,6 +332,15 @@ class VoteServices {
       AppToast('Vote Not Submitted', false);
     });
   }
+
+
+    Future<void> deleteChar(
+    String docID,
+    BuildContext context,
+  ) {
+    // Call the user's CollectionReference to add a new user
+    return FirebaseFirestore.instance.collection('vote').doc(docID).delete();
+  }
   //SignIn
   // static signIn(BuildContext context, String email, String password) async {
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;

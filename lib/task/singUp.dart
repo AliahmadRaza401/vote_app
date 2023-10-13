@@ -245,10 +245,12 @@ Widget customInputField(
   String? Function(String?)? validator, {
   bool? isPassword,
   Function()? onPressed,
+  Function(String)? onChanged,
 }) {
   return TextFormField(
     controller: controller,
     validator: validator,
+    onChanged: onChanged,
     // autocorrect: true,
     autovalidateMode: AutovalidateMode.onUserInteraction,
     focusNode: focusNode,
@@ -258,18 +260,18 @@ Widget customInputField(
     decoration: InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          color: focusNode.hasFocus ? Colors.green : Colors.grey,
+          color: focusNode.hasFocus ? Colors.blue : Colors.grey,
         ),
         hintText: label,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: focusNode.hasFocus ? Colors.green : Colors.grey,
+            color: focusNode.hasFocus ? Colors.blue : Colors.grey,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: focusNode.hasFocus ? Colors.green : Colors.grey,
+            color: focusNode.hasFocus ? Colors.blue : Colors.grey,
           ),
           borderRadius: BorderRadius.circular(10),
         ),
