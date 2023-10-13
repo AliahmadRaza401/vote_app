@@ -93,7 +93,7 @@ class _UserScreenState extends State<UserScreen> {
                           )
                         : Container(
                             // color: Colors.amber,
-                            height: MediaQuery.of(context).size.height * 0.65,
+                            height: MediaQuery.of(context).size.height * 0.55,
                             child: SingleChildScrollView(
                               child: Container(
                                 // color: Colors.amber,

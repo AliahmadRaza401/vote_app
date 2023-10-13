@@ -116,7 +116,7 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                       onChanged: (e) {
                         print(charList.length);
                         searchList = charList
-                            .where((element) => element['name']
+                            .where((element) => element['voteName']
                                 .toString()
                                 .toLowerCase()
                                 .contains(e.toString().toLowerCase()))
