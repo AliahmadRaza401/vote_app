@@ -29,23 +29,6 @@ class _AdminBottomNavigationBarScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Vote App',
-            style: TextStyle(
-              fontFamily: 'PlusJakartaSans-SemiBold',
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 25,
-            ),
-          ),
-        ),
-      
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
