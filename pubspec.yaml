@@ -50,6 +50,7 @@ dependencies:
   cloud_firestore: ^4.9.3
   uuid: ^4.1.0
   fluttertoast: ^8.2.2
+  intl: ^0.18.1
 
 
 
