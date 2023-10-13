@@ -502,14 +502,12 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     );
   }
 
-  Widget characterPopularity(
-    List<QueryDocumentSnapshot<Object?>> voteList,
-  ) {
+  Widget characterPopularity(List<QueryDocumentSnapshot<Object?>> voteList) {
     int maxScoreIndex = -1;
     int maxScore = -1;
 
     for (int i = 0; i < voteList.length; i++) {
-      int score =int.parse(voteList[i]["totalVote"]) ;
+      int score = int.parse(voteList[i]["totalVote"]);
       Timestamp timestamp = voteList[i]["votingDate"];
 
       // Check if the timestamp is in the morning

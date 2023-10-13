@@ -196,6 +196,16 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                                             "Char Deleted Successfully", true);
                                       },
                                       onTap: () async {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return CustomDialog(
+                                                initalValue: data[index]
+                                                    ['voteName'],
+                                                singleIndex:
+                                                    snapshot.data!.docs[index],
+                                              );
+                                            });
                                         // if (itemSelected[index] == false) {
                                         //   setState(() {
                                         //     itemSelected[index] = !itemSelected[index];
@@ -323,5 +333,93 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
             ),
           ),
         ));
+  }
+}
+
+class CustomDialog extends StatefulWidget {
+  String initalValue;
+  QueryDocumentSnapshot singleIndex;
+  CustomDialog(
+      {super.key, required this.initalValue, required this.singleIndex});
+
+  @override
+  State<CustomDialog> createState() => _CustomDialogState();
+}
+
+class _CustomDialogState extends State<CustomDialog> {
+  TextEditingController? _updatecontroller;
+
+  //  snapshot.data!.docs[index].id,
+  @override
+  void initState() {
+    _updatecontroller = TextEditingController(text: widget.initalValue);
+    super.initState();
+  }
+
+  dialogContent(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 10.0,
+            offset: Offset(0.0, 10.0),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment:
+              CrossAxisAlignment.center, // To make the card compact
+          children: <Widget>[
+            const Text(
+              'Update Character',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              child: TextFormField(
+                controller: _updatecontroller,
+                onChanged: (value) {
+                  setState(() {
+                    _updatecontroller!.text = value;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            ElevatedButton(
+                onPressed: () async {
+                  await VoteServices().updateUser(
+                      _updatecontroller!.text, widget.singleIndex.id, context);
+                },
+                child: const Text('Update'))
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: dialogContent(context),
+    );
   }
 }
