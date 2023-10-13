@@ -317,6 +317,19 @@ class VoteServices {
     });
   }
 
+  Future<void> updateUser(
+    String updateVoteName,
+    String docId,
+    BuildContext context,
+  ) {
+    return users.doc(docId).update({'voteName': updateVoteName}).then((value) {
+      AppToast('Vote  Updated', true);
+      Navigator.of(context).pop();
+    }).catchError((error) {
+      log("Failed to update user: $error");
+    });
+  }
+
   Future<void> SelectVoteByUser(
     String docID,
     String totalVote,
@@ -333,8 +346,7 @@ class VoteServices {
     });
   }
 
-
-    Future<void> deleteChar(
+  Future<void> deleteChar(
     String docID,
     BuildContext context,
   ) {

@@ -1,17 +1,13 @@
 import 'dart:developer';
 
-import 'package:alibhaiapp/admin/line_chart.dart';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
-import 'package:alibhaiapp/services/shearedpref_service.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/utils/images.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   const HomeAdminScreen({super.key});
@@ -23,8 +19,6 @@ class HomeAdminScreen extends StatefulWidget {
 class _HomeAdminScreenState extends State<HomeAdminScreen> {
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('vote').snapshots();
-
-  List data = [];
   var totalScore = 0;
   @override
   Widget build(BuildContext context) {
@@ -72,7 +66,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  ShearedprefService.setUserLoggedIn(false);
                                   AppRoutes.pushAndRemoveUntil(
                                     context,
                                     PageTransitionType.fade,
@@ -108,7 +101,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                               // width: 70,
                               decoration: BoxDecoration(
                                   color: const Color.fromARGB(53, 55, 15, 8),
-                                  borderRadius: BorderRadius.circular(10)),
+                                  borderRadius: BorderRadius.circular(20)),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
@@ -127,7 +120,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                       topFiveCherecter(snapshot.data!.docs),
                       //  Character Popularity
                       Container(
-                        width: MediaQuery.of(context).size.width,
                         margin:
                             const EdgeInsets.only(top: 30, right: 10, left: 10),
                         padding: const EdgeInsets.only(top: 15, left: 15),
@@ -190,9 +182,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                             // ),
                           ],
                         ),
-                      ),
-                      FadeIn(
-                        child: LineChartSample1(),
                       ),
                       //  All vote
                       Container(
@@ -513,17 +502,15 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     );
   }
 
-  Widget characterPopularity(
-    List<QueryDocumentSnapshot<Object?>> voteList,
-  ) {
+  Widget characterPopularity(List<QueryDocumentSnapshot<Object?>> voteList) {
     int maxScoreIndex = -1;
     int maxScore = -1;
 
     for (int i = 0; i < voteList.length; i++) {
-      int score = int.parse(voteList[i]["totalVote"].toString());
+      int score = int.parse(voteList[i]["totalVote"]);
       Timestamp timestamp = voteList[i]["votingDate"];
 
-      // // Check if the timestamp is in the morning
+      // Check if the timestamp is in the morning
       if (isMorningTimestamp(timestamp.toString())) {
         if (score > maxScore) {
           maxScore = score;
@@ -538,31 +525,19 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
       log("No entries with morning timestamps found.");
     }
 
-    int idx = maxScoreIndex <= 0 ? 0 : maxScoreIndex;
-
     return Column(
       children: [
-        Text('Morning Votes:  ${voteList[idx]['voteName']}'),
-        SizedBox(
-          height: 5,
-        ),
-        Text('Afternoons Votes:  ${voteList[idx]['voteName']}'),
+        Text('Morning Votes: '),
       ],
     );
   }
 
   bool isMorningTimestamp(String timestamp) {
-    try {
-      // Extract the time part from the timestamp
-      String timePart = timestamp.split(" at ")[1];
-      // Extract the hour part
-      int hour = int.parse(timePart.split(":")[0]);
-      // Check if it's in the morning (you can adjust the range as needed)
-      return hour >= 6 && hour < 12;
-    } catch (e) {
-      // Handle any errors, e.g., invalid timestamp format
-      print("Error: $e");
-      return false; // or handle the error as needed
-    }
+    // Extract the time part from the timestamp
+    String timePart = timestamp.split(" at ")[1];
+    // Extract the hour part
+    int hour = int.parse(timePart.split(":")[0]);
+    // Check if it's in the morning (you can adjust the range as needed)
+    return hour >= 6 && hour < 12;
   }
 }
