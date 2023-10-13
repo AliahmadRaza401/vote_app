@@ -295,6 +295,7 @@ import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/task/motion_toast.dart';
 import 'package:alibhaiapp/task/navi_bar.dart';
 import 'package:alibhaiapp/user/userHomeScreen.dart';
+import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -342,11 +343,7 @@ class AuthServices {
                       const UserHomeScreen(),
                     ),
                   },
-                MyMotionToast.success(
-                  context,
-                  "Welcome",
-                  'LogIn Success',
-                ),
+                AppToast('LogIn Success', false),
                 _authProvider.isLoading(false),
               });
     } on FirebaseAuthException catch (error) {
@@ -375,11 +372,8 @@ class AuthServices {
       _authProvider.isLoading(false);
 
       // // GeneralDialogs.showOopsDialog(context, errorMessage);
-      MyMotionToast.error(
-        context,
-        "UnAuthorized",
-        errorMessage,
-      );
+      AppToast("UnAuthorized", false);
+
       return "false";
     }
   }
@@ -404,19 +398,12 @@ class AuthServices {
                 _authProvider.isLoading(false),
                 AppRoutes.pushAndRemoveUntil(
                     context, PageTransitionType.fade, Login()),
-                MyMotionToast.success(
-                  context,
-                  "Succeess",
-                  'User Created Successfully',
-                ),
+                AppToast('User Created Successfully', true),
               })
           .catchError((e) {
         print('catchError e: $e');
-        MyMotionToast.error(
-          context,
-          "Error",
-          e!.message,
-        );
+
+        AppToast("Error", false);
 
         _authProvider.isLoading(false);
       });
@@ -445,11 +432,7 @@ class AuthServices {
       }
 
       _authProvider.isLoading(false);
-      MyMotionToast.error(
-        context,
-        "Oops!",
-        errorMessage,
-      );
+      AppToast("$errorMessage", false);
     }
   }
 

@@ -290,10 +290,11 @@
 import 'dart:developer';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/task/motion_toast.dart';
+import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AuthServices {
+class VoteServices {
   static var errorMessage;
 // Create a CollectionReference called users that references the firestore collection
   CollectionReference users = FirebaseFirestore.instance.collection('vote');
@@ -305,25 +306,32 @@ class AuthServices {
   ) {
     // Call the user's CollectionReference to add a new user
     return users.add({
-      'voteName': voteName,
+      'voteName': voteName.toUpperCase(),
       'votingDate': DateTime.now(),
       'totalVote': 0,
       'voteId': voteId,
     }).then((value) {
-      MyMotionToast.success(
-        context,
-        "Success",
-        'Vote Added',
-      );
-    }).catchError((error){
-        MyMotionToast.success(
-        context,
-        "Error",
-        'Vote Not Added $errorMessage',
-      );
-    } );
+      AppToast('Vote  Added', true);
+    }).catchError((error) {
+      AppToast('Vote Not Added', false);
+    });
   }
 
+  Future<void> SelectVoteByUser(
+    String docID,
+    String totalVote,
+    BuildContext context,
+  ) {
+    // Call the user's CollectionReference to add a new user
+    return FirebaseFirestore.instance.collection('vote').doc(docID).update({
+      'votingDate': DateTime.now(),
+      'totalVote': totalVote,
+    }).then((value) {
+      AppToast('Vote Submitted', true);
+    }).catchError((error) {
+      AppToast('Vote Not Submitted', false);
+    });
+  }
   //SignIn
   // static signIn(BuildContext context, String email, String password) async {
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;

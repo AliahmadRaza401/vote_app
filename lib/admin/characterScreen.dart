@@ -34,9 +34,8 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
               controller: voteName,
               onChanged: (value) {
                 setState(() {
-                       voteName.text = value;
+                  voteName.text = value;
                 });
-           
               },
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -79,15 +78,16 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
               : Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         var uuid = const Uuid();
                         var voteId = uuid.v4();
                         log('voteId= $voteId');
-                        AuthServices().addVote(
+                        await VoteServices().addVote(
                           voteId,
                           voteName.text,
                           context,
                         );
+                        voteName.clear();
                       },
                       child: const Text('Add Character')),
                 )
