@@ -25,9 +25,10 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
       FirebaseFirestore.instance.collection('vote').snapshots();
 
   List data = [];
-  var totalScore = 0;
   @override
   Widget build(BuildContext context) {
+    var totalScore = 0;
+
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
       stream: _usersStream,
@@ -103,11 +104,11 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                             ),
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 10),
+                                  vertical: 8, horizontal: 20),
                               height: 50,
                               // width: 70,
                               decoration: BoxDecoration(
-                                  color: const Color.fromARGB(53, 55, 15, 8),
+                                  color: Colors.amber.withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Align(
                                 alignment: Alignment.center,
@@ -130,8 +131,12 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         width: MediaQuery.of(context).size.width,
                         margin:
                             const EdgeInsets.only(top: 30, right: 10, left: 10),
-                        padding: const EdgeInsets.only(top: 15, left: 15),
-                        height: MediaQuery.of(context).size.height * 0.2,
+                        padding: const EdgeInsets.only(
+                          top: 20,
+                          left: 15,
+                          bottom: 20,
+                        ),
+                        // height: MediaQuery.of(context).size.height * 0.2,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: const Color.fromARGB(180, 100, 200, 200),
@@ -145,6 +150,9 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
+                            ),
+                            SizedBox(
+                              height: 20,
                             ),
                             characterPopularity(snapshot.data!.docs),
                             // Row(
@@ -195,6 +203,21 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         child: LineChartSample1(),
                       ),
                       //  All vote
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "All Votes",
+                            style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
                       Container(
                           margin: const EdgeInsets.symmetric(
                               vertical: 15, horizontal: 15),
@@ -223,8 +246,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                                 child: Column(
                                   children: [
                                     Text(
-                                        snapshot.data!.docs[index]['voteName']),
-                                    const Divider(color: Colors.black),
+                                      snapshot.data!.docs[index]['voteName'],
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const Divider(
+                                      color: Colors.amber,
+                                      thickness: 2,
+                                    ),
                                     Text(
                                       snapshot.data!.docs[index]['totalVote']
                                           .toString(),
@@ -502,7 +531,9 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         horizontal: 10), // Adjust the horizontal spacing
                     child: Text(
                       top5Names[index].toString(),
-                      style: TextStyle(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
               ],
@@ -516,53 +547,98 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   Widget characterPopularity(
     List<QueryDocumentSnapshot<Object?>> voteList,
   ) {
-    int maxScoreIndex = -1;
-    int maxScore = -1;
+    print(voteList[0]['votingDate']);
+    final morningVotes = voteList
+        .where((character) => character["votingDate"].toDate().hour < 12)
+        .toList();
+    morningVotes.sort((a, b) => b['votingDate'].compareTo(a['votingDate']));
 
-    for (int i = 0; i < voteList.length; i++) {
-      int score = int.parse(voteList[i]["totalVote"].toString());
-      Timestamp timestamp = voteList[i]["votingDate"];
+    String mVote =
+        morningVotes.isNotEmpty ? morningVotes.first['voteName'] : "";
 
-      // // Check if the timestamp is in the morning
-      if (isMorningTimestamp(timestamp.toString())) {
-        if (score > maxScore) {
-          maxScore = score;
-          maxScoreIndex = i;
-        }
-      }
-    }
+    // afternoonVotes
+    // Filter for afternoon votes (e.g., votes from 12:00 PM to 6:00 PM)
 
-    if (maxScoreIndex != -1) {
-      log("The index with the maximum score in the morning is $maxScoreIndex");
-    } else {
-      log("No entries with morning timestamps found.");
-    }
+    final afternoonVotes = voteList
+        .where((character) =>
+            character["votingDate"].toDate().hour >= 12 &&
+            character["votingDate"].toDate().hour < 18)
+        .toList();
+    afternoonVotes.sort((a, b) => b['votingDate'].compareTo(a['votingDate']));
 
-    int idx = maxScoreIndex <= 0 ? 0 : maxScoreIndex;
-
-    return Column(
+    String afterVote = afternoonVotes.isNotEmpty
+        ? afternoonVotes.first['voteName']
+        : "Not Found";
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text('Morning Votes:  ${voteList[idx]['voteName']}'),
-        SizedBox(
-          height: 5,
+        Container(
+          height: 80,
+          width: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Morning',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: 80,
+                    height: 3,
+                    color: Colors.amber,
+                  ),
+                ],
+              ),
+              Text('${mVote}'),
+            ],
+          ),
         ),
-        Text('Afternoons Votes:  ${voteList[idx]['voteName']}'),
+        Container(
+          height: 80,
+          width: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'Afternoon',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    width: 80,
+                    height: 3,
+                    color: Colors.amber,
+                  ),
+                ],
+              ),
+              Text('${afterVote}'),
+            ],
+          ),
+        ),
       ],
     );
-  }
-
-  bool isMorningTimestamp(String timestamp) {
-    try {
-      // Extract the time part from the timestamp
-      String timePart = timestamp.split(" at ")[1];
-      // Extract the hour part
-      int hour = int.parse(timePart.split(":")[0]);
-      // Check if it's in the morning (you can adjust the range as needed)
-      return hour >= 6 && hour < 12;
-    } catch (e) {
-      // Handle any errors, e.g., invalid timestamp format
-      print("Error: $e");
-      return false; // or handle the error as needed
-    }
   }
 }
