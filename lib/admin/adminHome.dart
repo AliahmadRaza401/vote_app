@@ -28,7 +28,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
   @override
   Widget build(BuildContext context) {
     var totalScore = 0;
-
+    List<int> totalVoteList = [];
+    List<DateTime> votingDatesList = [];
     return Scaffold(
         body: StreamBuilder<QuerySnapshot>(
       stream: _usersStream,
@@ -43,6 +44,8 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
         for (var item in snapshot.data!.docs) {
           totalScore += int.parse(item['totalVote'].toString());
+          totalVoteList.add(int.parse(item['totalVote'].toString()));
+          votingDatesList.add(item["votingDate"].toDate());
         }
 
         return SingleChildScrollView(
@@ -200,7 +203,26 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                         ),
                       ),
                       FadeIn(
-                        child: LineChartSample1(),
+                        child: LineChartSample1(
+                          voteCounts: totalVoteList,
+                          votingDates: votingDatesList,
+                          // voteCounts: [
+                          //   10,
+                          //   20,
+                          //   30,
+                          //   25,
+                          //   15,
+                          //   40
+                          // ], // Dummy vote counts
+                          // votingDates: [
+                          //   DateTime(2023, 10, 15, 8, 30),
+                          //   DateTime(2023, 10, 15, 9, 0),
+                          //   DateTime(2023, 10, 15, 10, 15),
+                          //   DateTime(2023, 10, 15, 11, 0),
+                          //   DateTime(2023, 10, 15, 12, 30),
+                          //   DateTime(2023, 10, 15, 13, 0),
+                          // ],
+                        ),
                       ),
                       //  All vote
                       SizedBox(

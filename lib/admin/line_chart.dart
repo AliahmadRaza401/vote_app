@@ -4,29 +4,72 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LineChartSample1 extends StatefulWidget {
-  // LineChartSample1({required this.downloadList, required this.uploadList});
-  List<double> downloadList = [
-    2.0,
-    3.0,
-    5.0,
-    300,
-    500,
-    300,
-    500,
-  ];
-  List<double> uploadList = [
-    2.0,
-    3.0,
-    5.0,
-    300,
-    500,
-    300,
-    500,
-    300,
-    500,
-  ];
+// class _LineChart extends StatelessWidget {
+// final List<int> voteCounts;
+// final List<DateTime> votingDates;
 
+// _LineChart({required this.voteCounts, required this.votingDates});
+
+// double getMaxVoteCount(List<int> voteCounts) {
+//   if (voteCounts.isEmpty) return 0;
+//   return voteCounts.reduce((max, count) => count > max ? count : max).toDouble();
+// }
+
+// List<FlSpot> getChartData() {
+//   List<FlSpot> chartData = [];
+//   for (int i = 0; i < voteCounts.length; i++) {
+//     chartData.add(FlSpot(i.toDouble(), voteCounts[i].toDouble()));
+//   }
+//   return chartData;
+// }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return LineChart(
+//       LineChartData(
+//         lineBarsData: [
+//           LineChartBarData(
+//             isCurved: true,
+//             colors: [ChartColors.primary],
+//             dotData: FlDotData(show: false),
+//             belowBarData: BarAreaData(show: false),
+//             spots: getChartData(),
+//           ),
+//         ],
+//         titlesData: FlTitlesData(
+//           bottomTitles: AxisTitles(
+//             showTitles: true,
+//             interval: 1, // Customize as needed
+//           ),
+//           leftTitles: AxisTitles(
+//             showTitles: true,
+//             interval: 10, // Customize as needed
+//           ),
+//         ),
+//         borderData: FlBorderData(
+//           show: true,
+//           border: const Border(
+//             bottom: BorderSide(color: Colors.black.withOpacity(0.2), width: 3),
+//             left: BorderSide(color: Colors.black.withOpacity(0.2), width: 3),
+//           ),
+//         ),
+//         gridData: FlGridData(
+//           show: false,
+//         ),
+// minX: 0,
+// maxX: voteCounts.length.toDouble() - 1,
+// minY: 0,
+// maxY: getMaxVoteCount(voteCounts),
+//       ),
+//     );
+//   }
+// }
+
+class LineChartSample1 extends StatefulWidget {
+  LineChartSample1({required this.voteCounts, required this.votingDates});
+
+  late final List<int> voteCounts;
+  late final List<DateTime> votingDates;
   @override
   State<StatefulWidget> createState() => LineChartSample1State();
 }
@@ -42,6 +85,9 @@ class LineChartSample1State extends State<LineChartSample1> {
 
   @override
   Widget build(BuildContext context) {
+    print('voteCounts: ${widget.voteCounts}');
+    print('voteCounts: ${widget.votingDates}');
+
     return AspectRatio(
       aspectRatio: 1.6,
       child: Stack(
@@ -57,8 +103,8 @@ class LineChartSample1State extends State<LineChartSample1> {
                   padding: EdgeInsets.only(right: 16, left: 6),
                   child: _LineChart(
                     isShowingMainData: isShowingMainData,
-                    downloadList: widget.downloadList,
-                    uploadList: widget.uploadList,
+                    voteCounts: widget.voteCounts,
+                    votingDates: widget.votingDates,
                   ),
                 ),
               ),
@@ -87,15 +133,26 @@ class LineChartSample1State extends State<LineChartSample1> {
 class _LineChart extends StatelessWidget {
   _LineChart(
       {required this.isShowingMainData,
-      required this.downloadList,
-      required this.uploadList});
-  List<double> downloadList = [];
-  List<double> uploadList = [];
+      required this.voteCounts,
+      required this.votingDates});
+  late final List<int> voteCounts;
+  late final List<DateTime> votingDates;
 
   final bool isShowingMainData;
 
-  double getMaxRate(List<double> downloadRateHistory) {
-    return downloadRateHistory.reduce((max, rate) => rate > max ? rate : max);
+  double getMaxVoteCount(List<int> voteCounts) {
+    if (voteCounts.isEmpty) return 0;
+    return voteCounts
+        .reduce((max, count) => count > max ? count : max)
+        .toDouble();
+  }
+
+  List<FlSpot> getChartData() {
+    List<FlSpot> chartData = [];
+    for (int i = 0; i < voteCounts.length; i++) {
+      chartData.add(FlSpot(i.toDouble(), voteCounts[i].toDouble()));
+    }
+    return chartData;
   }
 
   @override
@@ -112,9 +169,9 @@ class _LineChart extends StatelessWidget {
         borderData: borderData,
         lineBarsData: lineBarsData1,
         minX: 0,
-        maxX: downloadList.length.toDouble() - 1,
+        maxX: voteCounts.length.toDouble() - 1,
         minY: 0,
-        maxY: getMaxRate(downloadList),
+        maxY: getMaxVoteCount(voteCounts),
       );
 
   LineChartData get sampleData2 => LineChartData(
@@ -124,9 +181,9 @@ class _LineChart extends StatelessWidget {
         borderData: borderData,
         lineBarsData: lineBarsData2,
         minX: 0,
-        maxX: uploadList.length.toDouble() - 1,
+        maxX: voteCounts.length.toDouble() - 1,
         minY: 0,
-        maxY: getMaxRate(downloadList),
+        maxY: getMaxVoteCount(voteCounts),
       );
 
   LineTouchData get lineTouchData1 => LineTouchData(
@@ -184,19 +241,19 @@ class _LineChart extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'O';
+        text = 'OMB';
         break;
       case 10:
-        text = '50';
+        text = '10MB';
         break;
       case 20:
-        text = '100';
+        text = '20MB';
         break;
       case 30:
-        text = '200';
+        text = '30MB';
         break;
       case 40:
-        text = '500';
+        text = '40MB';
 
         break;
       default:
@@ -215,8 +272,8 @@ class _LineChart extends StatelessWidget {
 
   SideTitles leftTitles() => SideTitles(
         getTitlesWidget: leftTitleWidgets,
-        // showTitles: true,
-        interval: 30,
+        showTitles: true,
+        interval: 2,
         reservedSize: 40,
       );
 
@@ -230,10 +287,10 @@ class _LineChart extends StatelessWidget {
     Widget text;
     switch (value.toInt()) {
       case 2:
-        text = Text('5', style: style);
+        text = Text('10', style: style);
         break;
       case 6:
-        text = Text('10', style: style);
+        text = Text('20', style: style);
         break;
       case 12:
         text = Text('15', style: style);
@@ -260,8 +317,8 @@ class _LineChart extends StatelessWidget {
   }
 
   SideTitles get bottomTitles => SideTitles(
-        // showTitles: true,
-        reservedSize: 5,
+        showTitles: true,
+        reservedSize: 32,
         interval: 1,
         getTitlesWidget: bottomTitleWidgets,
       );
@@ -286,7 +343,7 @@ class _LineChart extends StatelessWidget {
           show: false,
           color: Colors.black.withOpacity(0),
         ),
-        spots: getChartData(uploadList),
+        spots: getChartData(),
       );
 
   LineChartBarData get lineChartBarData1_3 => LineChartBarData(
@@ -296,7 +353,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: getChartData(downloadList),
+        spots: getChartData(),
       );
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
@@ -309,15 +366,8 @@ class _LineChart extends StatelessWidget {
           show: true,
           color: Colors.black.withOpacity(0.2),
         ),
-        spots: getChartData(uploadList),
+        spots: getChartData(),
       );
-  List<FlSpot> getChartData(List<double> downloadRateHistory) {
-    List<FlSpot> chartData = [];
-    for (int i = 0; i < downloadRateHistory.length; i++) {
-      chartData.add(FlSpot(i.toDouble(), downloadRateHistory[i]));
-    }
-    return chartData;
-  }
 
   LineChartBarData get lineChartBarData2_3 => LineChartBarData(
         isCurved: true,
@@ -327,7 +377,7 @@ class _LineChart extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: getChartData(downloadList),
+        spots: getChartData(),
       );
 }
 
