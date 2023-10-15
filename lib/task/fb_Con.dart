@@ -327,6 +327,7 @@ class AuthServices {
           PageTransitionType.fade,
           const AdminBottomNavigationBarScreen(),
         );
+        _authProvider.isLoading(false);
       } else {
         await auth
             .signInWithEmailAndPassword(email: email, password: password)

@@ -576,7 +576,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     morningVotes.sort((a, b) => b['votingDate'].compareTo(a['votingDate']));
 
     String mVote =
-        morningVotes.isNotEmpty ? morningVotes.first['voteName'] : "";
+        morningVotes.isNotEmpty ? morningVotes.first['voteName'] : "Not Added";
 
     // afternoonVotes
     // Filter for afternoon votes (e.g., votes from 12:00 PM to 6:00 PM)
@@ -590,7 +590,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
 
     String afterVote = afternoonVotes.isNotEmpty
         ? afternoonVotes.first['voteName']
-        : "Not Found";
+        : "Not Added";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [

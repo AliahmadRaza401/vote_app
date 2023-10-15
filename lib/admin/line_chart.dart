@@ -80,7 +80,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   @override
   void initState() {
     super.initState();
-    isShowingMainData = true;
+    isShowingMainData = false;
   }
 
   @override
@@ -241,21 +241,9 @@ class _LineChart extends StatelessWidget {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'OMB';
+        text = '';
         break;
-      case 10:
-        text = '10MB';
-        break;
-      case 20:
-        text = '20MB';
-        break;
-      case 30:
-        text = '30MB';
-        break;
-      case 40:
-        text = '40MB';
 
-        break;
       default:
         return SizedBox();
     }
@@ -285,25 +273,20 @@ class _LineChart extends StatelessWidget {
       fontFamily: 'popinsregular',
     );
     Widget text;
+    // if (value.toInt() == 0) {
+    //   text = Text('0', style: style);
+    // } else if (value.toInt() == 3) {
+    //   text = Text('3', style: style);
+    // } else if (value.toInt() == 7) {
+    //   text = Text('7', style: style);
+    // } else {
+    //   text = Text('9', style: style);
+    // }
     switch (value.toInt()) {
-      case 2:
-        text = Text('10', style: style);
+      case 0:
+        text = Text('', style: style);
         break;
-      case 6:
-        text = Text('20', style: style);
-        break;
-      case 12:
-        text = Text('15', style: style);
-        break;
-      case 18:
-        text = Text('20', style: style);
-        break;
-      case 24:
-        text = Text('25', style: style);
-        break;
-      case 32:
-        text = Text('30', style: style);
-        break;
+
       default:
         text = Text('');
         break;
@@ -328,20 +311,24 @@ class _LineChart extends StatelessWidget {
   FlBorderData get borderData => FlBorderData(
         show: true,
         border: Border(
-          bottom: BorderSide(color: Colors.black.withOpacity(0.2), width: 3),
-          left: BorderSide(color: Colors.black.withOpacity(0.2), width: 3),
+          bottom: BorderSide(
+              color: Color.fromARGB(100, 3, 150, 204).withOpacity(0.9),
+              width: 3),
+          left: BorderSide(
+              color: Color.fromARGB(100, 3, 150, 204).withOpacity(0.9),
+              width: 3),
         ),
       );
 
   LineChartBarData get lineChartBarData1_2 => LineChartBarData(
         isCurved: true,
-        color: Colors.black,
+        color: Colors.red,
         barWidth: 3,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: false,
-          color: Colors.black.withOpacity(0),
+          color: Colors.red.withOpacity(0),
         ),
         spots: getChartData(),
       );
@@ -357,14 +344,14 @@ class _LineChart extends StatelessWidget {
       );
 
   LineChartBarData get lineChartBarData2_2 => LineChartBarData(
-        isCurved: true,
+        isCurved: false,
         color: Colors.green.withOpacity(0.5),
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(
           show: true,
-          color: Colors.black.withOpacity(0.2),
+          color: Colors.green.withOpacity(0.2),
         ),
         spots: getChartData(),
       );

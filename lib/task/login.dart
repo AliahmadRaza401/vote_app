@@ -1,6 +1,7 @@
 import 'package:alibhaiapp/provider/auth_provider.dart';
 import 'package:alibhaiapp/task/fb_Con.dart';
 import 'package:alibhaiapp/task/singUp.dart';
+import 'package:alibhaiapp/utils/images.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +58,20 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: SafeArea(
         child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.9),
+            image: DecorationImage(
+              image: AssetImage(
+                AppImages.voteImage,
+              ),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.blue.withOpacity(0.3),
+                BlendMode.dstATop,
+              ),
+            ),
+          ),
           height: MediaQuery.of(context).size.height,
-          color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child: Form(
             autovalidateMode: AutovalidateMode.disabled,
