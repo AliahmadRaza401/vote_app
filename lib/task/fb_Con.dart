@@ -317,36 +317,33 @@ class AuthServices {
         Provider.of<AuthProvider>(context, listen: false);
     _authProvider.isLoading(true);
     try {
-      await auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                if (email == 'admin@gmail.com' || password == 'admin12')
-                  {
-                    log('Admin Side '),
-                    ShearedprefService.setUserTpe('admin'),
-                    ShearedprefService.setUserIDStore(uid.user!.uid),
-                    ShearedprefService.setUserLoggedIn(true),
-                    AppRoutes.pushAndRemoveUntil(
-                      context,
-                      PageTransitionType.fade,
-                      const AdminBottomNavigationBarScreen(),
-                    ),
-                  }
-                else
-                  {
-                    log('User Side '),
-                    ShearedprefService.setUserTpe('user'),
-                    ShearedprefService.setUserIDStore(uid.user!.uid),
-                    ShearedprefService.setUserLoggedIn(true),
-                    AppRoutes.pushAndRemoveUntil(
-                      context,
-                      PageTransitionType.fade,
-                      const UserHomeScreen(),
-                    ),
-                  },
-                AppToast('LogIn Success', false),
-                _authProvider.isLoading(false),
-              });
+      if (email == 'admin@gmail.com' || password == 'admin') {
+        log('Admin Side ');
+        ShearedprefService.setUserTpe('admin');
+        // ShearedprefService.setUserIDStore(uid.user!.uid);
+        ShearedprefService.setUserLoggedIn(true);
+        AppRoutes.pushAndRemoveUntil(
+          context,
+          PageTransitionType.fade,
+          const AdminBottomNavigationBarScreen(),
+        );
+      } else {
+        await auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((uid) => {
+                  log('User Side '),
+                  ShearedprefService.setUserTpe('user'),
+                  ShearedprefService.setUserIDStore(uid.user!.uid),
+                  ShearedprefService.setUserLoggedIn(true),
+                  AppRoutes.pushAndRemoveUntil(
+                    context,
+                    PageTransitionType.fade,
+                    const UserHomeScreen(),
+                  ),
+                  AppToast('LogIn Success', false),
+                  _authProvider.isLoading(false),
+                });
+      }
     } on FirebaseAuthException catch (error) {
       switch (error.code) {
         case "invalid-email":
