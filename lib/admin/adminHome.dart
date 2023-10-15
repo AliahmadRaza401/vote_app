@@ -212,7 +212,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                           Text(
                             "All Votes",
                             style: TextStyle(
-                              fontSize: 27,
+                              fontSize: 24,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
