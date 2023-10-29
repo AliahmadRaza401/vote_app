@@ -1,8 +1,10 @@
+import 'package:alibhaiapp/admin/update_password.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/task/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:page_transition/page_transition.dart';
@@ -29,14 +31,25 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 213, 219, 222),
+      backgroundColor: const Color.fromARGB(255, 213, 219, 222),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: SingleChildScrollView(
           child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ListTile(
+                  onTap: (){
+                      AppRoutes.push(
+        context,
+        PageTransitionType.fade,
+        const UpdatePasswordScreen(),
+      );
+                  },
+                  title: Text('update Password'),
+                  trailing: Icon(Icons.password),
+                ),
                 Text(
                   'Users ',
                   style: TextStyle(

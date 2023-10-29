@@ -17,7 +17,7 @@ class _AdminBottomNavigationBarScreenState
     extends State<AdminBottomNavigationBarScreen> {
   int _selectedIndex = 0;
   static List<Widget> _widgetOptions = <Widget>[
-    HomeAdminScreen(),
+     HomeAdminScreen(),
     AdminCharacterScreen(),
     UserScreen(),
   ];

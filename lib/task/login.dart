@@ -73,7 +73,8 @@ class _LoginState extends State<Login> {
           ),
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-          child: Form(
+          child: 
+          Form(
             autovalidateMode: AutovalidateMode.disabled,
             key: _formKey,
             child: Column(

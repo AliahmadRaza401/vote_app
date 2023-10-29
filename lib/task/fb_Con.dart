@@ -506,6 +506,71 @@ class AuthServices {
     });
   }
 
+
+
+
+  // Change Password-----------------------------------------
+  static Future changePassword(
+    BuildContext context,
+    
+    String pass,
+  ) async {
+    final _auth = FirebaseAuth.instance;
+    AuthProvider _authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
+    _authProvider.isLoading(true);
+    try {
+      print("User Creating_______________________");
+
+      await _auth.currentUser!
+          .updatePassword(pass)
+          .then((value) => {
+                log("Password Updated_______________________"),
+               
+                _authProvider.isLoading(false),
+              
+                AppToast('Password Updated Successfully', true),
+              })
+          .catchError((e) {
+        log('catchError e: $e');
+
+        AppToast("Error", false);
+
+        _authProvider.isLoading(false);
+      });
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case "invalid-email":
+          errorMessage = "Your email address is invalid";
+          break;
+        case "wrong-password":
+          errorMessage = "Your password is wrong.";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "operation-not-allowed":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
+      }
+
+      _authProvider.isLoading(false);
+      AppToast("$errorMessage", false);
+    }
+  }
+
+
+
+
+
   // static postDetailsToFirestore(
   //     BuildContext context,
   //     fullName,
