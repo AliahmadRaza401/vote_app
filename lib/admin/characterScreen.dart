@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:alibhaiapp/admin/admin_service.dart';
+import 'package:alibhaiapp/services/admin_service.dart';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/provider/auth_provider.dart';
 import 'package:alibhaiapp/task/singUp.dart';

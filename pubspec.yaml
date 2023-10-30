@@ -51,8 +51,7 @@ dependencies:
   uuid: ^4.1.0
   fluttertoast: ^8.2.2
   intl: ^0.18.1
-  syncfusion_flutter_gauges: ^20.3.58
-  fl_chart: ^0.55.1
+  syncfusion_flutter_charts: ^22.2.10
 
 
 

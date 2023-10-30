@@ -11,7 +11,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:intl/intl.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class HomeAdminScreen extends StatefulWidget {
   const HomeAdminScreen({super.key});
@@ -62,445 +61,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 0, right: 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Dashboard',
-                              style: TextStyle(
-                                fontSize: 27,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  ShearedprefService.setUserLoggedIn(false);
-                                  AppRoutes.pushAndRemoveUntil(
-                                    context,
-                                    PageTransitionType.fade,
-                                    const Login(),
-                                  );
-                                },
-                                icon: const Icon(Icons.logout))
-                          ],
-                        ),
-                      ),
-                      // total Sore
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            const Text(
-                              'Total Votes',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 20),
-                              height: 50,
-                              // width: 70,
-                              decoration: BoxDecoration(
-                                  color: Colors.amber.withOpacity(0.6),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  totalScore.toString(),
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // Top Character
+                      header(),
+                      totalVote(totalScore),
                       topFiveCherecter(snapshot.data!.docs),
-                      //  Character Popularity
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin:
-                            const EdgeInsets.only(top: 30, right: 10, left: 10),
-                        padding: const EdgeInsets.only(
-                          top: 20,
-                          left: 15,
-                          bottom: 20,
-                        ),
-                        // height: MediaQuery.of(context).size.height * 0.2,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color.fromARGB(180, 100, 200, 200),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text(
-                              "Character Popularity",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            characterPopularity(snapshot.data!.docs),
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            //   children: [
-                            //     Container(
-                            //       height: 40,
-                            //       width: 100,
-                            //       margin: const EdgeInsets.only(top: 10, right: 10),
-                            //       decoration: BoxDecoration(
-                            //           color: Colors.white,
-                            //           borderRadius: BorderRadius.circular(30)),
-                            //       child: const Padding(
-                            //         padding: EdgeInsets.all(8.0),
-                            //         child: Text(
-                            //           "Morning",
-                            //           style: TextStyle(
-                            //             fontSize: 20,
-                            //             fontWeight: FontWeight.w500,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       height: 40,
-                            //       width: 110,
-                            //       margin: EdgeInsets.only(top: 10, right: 10),
-                            //       decoration: BoxDecoration(
-                            //           color: Colors.white,
-                            //           borderRadius: BorderRadius.circular(30)),
-                            //       child: Padding(
-                            //         padding: const EdgeInsets.all(8.0),
-                            //         child: Text(
-                            //           "Afternoon",
-                            //           style: TextStyle(
-                            //             fontSize: 20,
-                            //             fontWeight: FontWeight.w500,
-                            //           ),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                          ],
-                        ),
+                      charcPopularity(snapshot.data!.docs),
+                      VoteChart(
+                        docs: snapshot.data!.docs,
                       ),
-                      FadeIn(
-                        child: LineChartSample1(
-                          voteCounts: totalVoteList,
-                          votingDates: votingDatesList,
-                          // voteCounts: [
-                          //   10,
-                          //   20,
-                          //   30,
-                          //   25,
-                          //   15,
-                          //   40
-                          // ], // Dummy vote counts
-                          // votingDates: [
-                          //   DateTime(2023, 10, 15, 8, 30),
-                          //   DateTime(2023, 10, 15, 9, 0),
-                          //   DateTime(2023, 10, 15, 10, 15),
-                          //   DateTime(2023, 10, 15, 11, 0),
-                          //   DateTime(2023, 10, 15, 12, 30),
-                          //   DateTime(2023, 10, 15, 13, 0),
-                          // ],
-                        ),
-                      ),
-                      //  All vote
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "All Votes",
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 15),
-                          // height: MediaQuery.of(context).size.height * 0.2,
-                          // height: 180,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color.fromARGB(168, 173, 200, 100),
-                          ),
-                          child: ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container(
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 15),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                width: 30,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      snapshot.data!.docs[index]['voteName'],
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const Divider(
-                                      color: Colors.amber,
-                                      thickness: 2,
-                                    ),
-                                    Text(
-                                      snapshot.data!.docs[index]['totalVote']
-                                          .toString(),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          )
-
-                          // ListView(
-                          //   children: snapshot.data!.docs
-                          //       .map((DocumentSnapshot document) {
-                          //     // AdminVoteAddModel data = document.data()! as AdminVoteAddModel;
-                          //     Map<String, dynamic> data =
-                          //         document.data()! as Map<String, dynamic>;
-                          //     return Container(
-                          //       decoration: BoxDecoration(
-                          //           color: Colors.white,
-                          //           borderRadius: BorderRadius.circular(15)),
-                          //       child: Column(
-                          //         children: [
-                          //           Text(data['voteName']),
-                          //           Divider(
-                          //             color: Colors.black,
-                          //           ),
-                          //           Text(data['totalVote'].toString())
-                          //         ],
-                          //       ),
-                          //     );
-
-                          //     // ListTile(
-                          //     //   // title: Text(data.voteName.toString()),
-                          //     //   // subtitle: Text(data.totalVote.toString()),
-                          //     //   title: Text(data['voteName']),
-                          //     //   subtitle: Text(data['voteId'].toString()),
-                          //     //   leading: Text(data['totalVote'].toString()),
-                          //     // );
-                          //   }).toList(),
-                          // )
-
-                          // Column(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          //   children: [
-                          //     Text(
-                          //       "Vote Per Character",
-                          //       style: TextStyle(
-                          //         fontSize: 20,
-                          //         fontWeight: FontWeight.w500,
-                          //       ),
-                          //     ),
-                          //     Row(
-                          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          //       children: [
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "A",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "B",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "C",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "D",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "E",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //     Row(
-                          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          //       children: [
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "180",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "76",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "74",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "90",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //         Container(
-                          //           margin: EdgeInsets.only(top: 10, right: 10),
-                          //           decoration: BoxDecoration(
-                          //               color: Colors.white,
-                          //               borderRadius: BorderRadius.circular(30)),
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Text(
-                          //               "80",
-                          //               style: TextStyle(
-                          //                 fontSize: 20,
-                          //                 fontWeight: FontWeight.w500,
-                          //               ),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ],
-                          //     ),
-                          //   ],
-                          // ),
-
-                          ),
+                      allVoteList(snapshot.data!.docs),
                     ],
                   ),
                 ),
@@ -512,6 +80,104 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     ));
   }
 
+  Widget header() {
+    return Container(
+      margin: const EdgeInsets.only(top: 0, right: 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Dashboard',
+            style: TextStyle(
+              fontSize: 27,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          IconButton(
+              onPressed: () {
+                ShearedprefService.setUserLoggedIn(false);
+                AppRoutes.pushAndRemoveUntil(
+                  context,
+                  PageTransitionType.fade,
+                  const Login(),
+                );
+              },
+              icon: const Icon(Icons.logout))
+        ],
+      ),
+    );
+  }
+
+  Widget totalVote(totalScore) {
+    return Container(
+      // width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.1,
+      margin: const EdgeInsets.only(top: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'Total Votes',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+            height: 50,
+            // width: 70,
+            decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.6),
+                borderRadius: BorderRadius.circular(10)),
+            child: Align(
+              alignment: Alignment.center,
+              child: Text(
+                totalScore.toString(),
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget charcPopularity(docs) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+
+      padding: EdgeInsets.symmetric(
+          vertical: 20), // height: MediaQuery.of(context).size.height * 0.2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: const Color.fromARGB(180, 100, 200, 200),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const Text(
+            "Character Popularity",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          findcharacterPopularity(docs),
+        ],
+      ),
+    );
+  }
+
   Widget topFiveCherecter(
     List<QueryDocumentSnapshot<Object?>> voteList,
   ) {
@@ -521,29 +187,32 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     // Extract the top 5 names
     List top5Names = voteList.take(5).map((item) => item['voteName']).toList();
     return Container(
-      margin: const EdgeInsets.only(top: 30, right: 10, left: 10),
-      padding: const EdgeInsets.only(top: 15, left: 15),
-      height: MediaQuery.of(context).size.height * 0.2,
+      margin: const EdgeInsets.only(top: 20, bottom: 20),
+      padding: const EdgeInsets.only(
+        top: 20,
+        left: 20,
+        bottom: 20,
+        right: 20,
+      ),
       decoration: BoxDecoration(
           color: const Color.fromARGB(100, 3, 150, 204),
           borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Top Five Character',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
-              ),
+          Text(
+            'Top Five Character',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
             ),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Container(
             height: 40,
-            margin: const EdgeInsets.only(top: 10, right: 10),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(30)),
+                color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -566,7 +235,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
     );
   }
 
-  Widget characterPopularity(
+  Widget findcharacterPopularity(
     List<QueryDocumentSnapshot<Object?>> voteList,
   ) {
     print(voteList[0]['votingDate']);
@@ -596,7 +265,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
       children: [
         Container(
           height: 80,
-          width: 100,
+          width: 130,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -629,7 +298,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
         ),
         Container(
           height: 80,
-          width: 100,
+          width: 130,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -660,6 +329,67 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
             ],
           ),
         ),
+      ],
+    );
+  }
+
+  Widget allVoteList(docs) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              "All Votes",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        Container(
+            margin: const EdgeInsets.symmetric(
+              vertical: 15,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+            // height: MediaQuery.of(context).size.height * 0.2,
+            // height: 180,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: const Color.fromARGB(168, 173, 200, 100),
+            ),
+            child: ListView.builder(
+              itemCount: docs.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  width: 30,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Column(
+                    children: [
+                      Text(
+                        docs[index]['voteName'],
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const Divider(
+                        color: Colors.amber,
+                        thickness: 2,
+                      ),
+                      Text(
+                        docs[index]['totalVote'].toString(),
+                      )
+                    ],
+                  ),
+                );
+              },
+            )),
       ],
     );
   }

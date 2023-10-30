@@ -1,4 +1,4 @@
-import 'package:alibhaiapp/admin/admin_service.dart';
+import 'package:alibhaiapp/services/admin_service.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
