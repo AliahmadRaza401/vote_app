@@ -91,31 +91,35 @@ class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  customInputField(
-                      passwordController,
-                      pasFocusNode,
-                      "Password",
-                      MultiValidator([
-                        authProvider.requiredValidator,
-                      ]),
-                      isPassword: pass, onPressed: () {
-                    setState(() {
-                      pass = !pass;
-                    });
-                  }),
+                  FadeIn(
+                    child: customInputField(
+                        passwordController,
+                        pasFocusNode,
+                        "Password",
+                        MultiValidator([
+                          authProvider.requiredValidator,
+                        ]),
+                        isPassword: pass, onPressed: () {
+                      setState(() {
+                        pass = !pass;
+                      });
+                    }),
+                  ),
                   const SizedBox(height: 20),
-                  customInputField(
-                      confirmPasswordController,
-                      confirmpasFocusNode,
-                      "Confirm Password",
-                      MultiValidator([
-                        authProvider.requiredValidator,
-                      ]),
-                      isPassword: cpass, onPressed: () {
-                    setState(() {
-                      cpass = !cpass;
-                    });
-                  }),
+                  FadeIn(
+                    child: customInputField(
+                        confirmPasswordController,
+                        confirmpasFocusNode,
+                        "Confirm Password",
+                        MultiValidator([
+                          authProvider.requiredValidator,
+                        ]),
+                        isPassword: cpass, onPressed: () {
+                      setState(() {
+                        cpass = !cpass;
+                      });
+                    }),
+                  ),
                   const SizedBox(height: 20),
                   Center(
                     child: loading == true

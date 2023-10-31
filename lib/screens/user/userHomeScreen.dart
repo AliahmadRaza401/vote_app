@@ -2,6 +2,7 @@ import 'package:alibhaiapp/services/admin_service.dart';
 import 'package:alibhaiapp/screens/Authentication/login.dart';
 import 'package:alibhaiapp/screens/user/profileScreen.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -71,85 +72,92 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Text(
-                          'Vote for your favourite Character',
-                          style: TextStyle(
-                            fontSize: 27,
-                            fontWeight: FontWeight.w800,
-                            fontFamily: 'PlusJakartaSans-Bold',
+                      FadeInLeft(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: Text(
+                            'Vote for your favourite Character',
+                            style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'PlusJakartaSans-Bold',
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        // color: Colors.amber,
-                        height: MediaQuery.of(context).size.height * 0.75,
-                        child: GridView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3, // number of items in each row
-                            mainAxisSpacing: 8.0, // spacing between rows
-                            crossAxisSpacing: 8.0, // spacing between columns
-                          ),
-                          itemBuilder: (context, index) {
-                            // return Text("data");
+                      FadeInUpBig(
+                        child: Container(
+                          // color: Colors.amber,
+                          height: MediaQuery.of(context).size.height * 0.75,
+                          child: GridView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            shrinkWrap: true,
+                            physics: const ClampingScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, // number of items in each row
+                              mainAxisSpacing: 8.0, // spacing between rows
+                              crossAxisSpacing: 8.0, // spacing between columns
+                            ),
+                            itemBuilder: (context, index) {
+                              // return Text("data");
 
-                            return GestureDetector(
-                              onTap: () async {
-                                if (itemSelected[index] == false) {
-                                  setState(() {
-                                    itemSelected[index] = !itemSelected[index];
-                                  });
+                              return GestureDetector(
+                                onTap: () async {
+                                  if (itemSelected[index] == false) {
+                                    setState(() {
+                                      itemSelected[index] =
+                                          !itemSelected[index];
+                                    });
 
-                                  int total = int.parse(snapshot
-                                          .data!.docs[index]['totalVote']
-                                          .toString()) +
-                                      1;
+                                    int total = int.parse(snapshot
+                                            .data!.docs[index]['totalVote']
+                                            .toString()) +
+                                        1;
 
-                                  print('total: ${total}');
+                                    print('total: ${total}');
 
-                                  await VoteServices().SelectVoteByUser(
-                                      snapshot.data!.docs[index].id,
-                                      total.toString(),
-                                      context);
+                                    await VoteServices().SelectVoteByUser(
+                                        snapshot.data!.docs[index].id,
+                                        total.toString(),
+                                        context);
 
-                                  await Future.delayed(Duration(seconds: 1));
+                                    await Future.delayed(Duration(seconds: 1));
 
-                                  setState(() {
-                                    itemSelected[index] = !itemSelected[index];
-                                  });
-                                }
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                // margin: const EdgeInsets.symmetric(
-                                //     vertical: 10, horizontal: 15),
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 2,
-                                      color: !itemSelected[index]
-                                          ? Colors.white
-                                          : Color.fromARGB(168, 173, 200, 100)),
-                                  color: !itemSelected[index]
-                                      ? Colors.white
-                                      : Color.fromARGB(168, 173, 200, 100)
-                                          .withOpacity(0.4),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Text(
-                                  snapshot.data!.docs[index]['voteName'],
-                                  style: TextStyle(
-                                    fontSize: 20,
+                                    setState(() {
+                                      itemSelected[index] =
+                                          !itemSelected[index];
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  // margin: const EdgeInsets.symmetric(
+                                  //     vertical: 10, horizontal: 15),
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 2,
+                                        color: !itemSelected[index]
+                                            ? Colors.white
+                                            : Color.fromARGB(
+                                                168, 173, 200, 100)),
+                                    color: !itemSelected[index]
+                                        ? Colors.white
+                                        : Color.fromARGB(168, 173, 200, 100)
+                                            .withOpacity(0.4),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Text(
+                                    snapshot.data!.docs[index]['voteName'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],

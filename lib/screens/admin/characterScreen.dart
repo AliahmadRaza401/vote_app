@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:developer';
 
 import 'package:alibhaiapp/services/admin_service.dart';
@@ -5,6 +7,7 @@ import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/provider/auth_provider.dart';
 import 'package:alibhaiapp/screens/Authentication/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -43,86 +46,92 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Character ',
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.w500,
+                  FadeInLeft(
+                    child: Text(
+                      'Character ',
+                      style: TextStyle(
+                        fontSize: 27,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: MediaQuery.of(context).size.width * 0.75,
-                        child: customInputField(voteName, pasFocusNode,
-                            "Add Char", MultiValidator([]),
-                            onPressed: () {}),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          if (voteName.text.isNotEmpty) {
-                            var uuid = const Uuid();
-                            var voteId = uuid.v4();
-                            log('voteId= $voteId');
-                            await VoteServices().addVote(
-                              voteId,
-                              voteName.text,
-                              context,
-                            );
-                            voteName.clear();
-                          } else {
-                            AppToast("Char Required", true);
-                          }
-                        },
-                        child: Container(
+                  FadeInLeft(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
                           height: 50,
-                          width: 50,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              // shape: BoxShape.circle,
-                              color: Colors.blue
-                              //  Color.fromARGB(168, 173, 200, 100),
+                          width: MediaQuery.of(context).size.width * 0.75,
+                          child: customInputField(voteName, pasFocusNode,
+                              "Add Char", MultiValidator([]),
+                              onPressed: () {}),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            if (voteName.text.isNotEmpty) {
+                              var uuid = const Uuid();
+                              var voteId = uuid.v4();
+                              log('voteId= $voteId');
+                              await VoteServices().addVote(
+                                voteId,
+                                voteName.text,
+                                context,
+                              );
+                              voteName.clear();
+                            } else {
+                              AppToast("Char Required", true);
+                            }
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                // shape: BoxShape.circle,
+                                color: Colors.blue
+                                //  Color.fromARGB(168, 173, 200, 100),
+                                ),
+                            child: Text(
+                              "+",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600,
                               ),
-                          child: Text(
-                            "+",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: customInputField(
-                      searchCont,
-                      searFocusNode,
-                      "Search Char",
-                      MultiValidator([]),
-                      onPressed: () {},
-                      onChanged: (e) {
-                        print(charList.length);
-                        searchList = charList
-                            .where((element) => element['voteName']
-                                .toString()
-                                .toLowerCase()
-                                .contains(e.toString().toLowerCase()))
-                            .toList();
-                        setState(() {});
-                      },
+                  FadeInLeft(
+                    child: Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      child: customInputField(
+                        searchCont,
+                        searFocusNode,
+                        "Search Char",
+                        MultiValidator([]),
+                        onPressed: () {},
+                        onChanged: (e) {
+                          print(charList.length);
+                          searchList = charList
+                              .where((element) => element['voteName']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(e.toString().toLowerCase()))
+                              .toList();
+                          setState(() {});
+                        },
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -144,117 +153,120 @@ class _AdminCharacterScreenState extends State<AdminCharacterScreen> {
                     height: 10,
                   ),
 
-                  StreamBuilder<QuerySnapshot>(
-                    stream: _usersStream,
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text('Something went wrong');
-                      }
+                  FadeInUpBig(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: _usersStream,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text('Something went wrong');
+                        }
 
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Text("Loading");
-                      }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Text("Loading");
+                        }
 
-                      charList = snapshot.data!.docs.toList();
+                        charList = snapshot.data!.docs.toList();
 
-                      List data =
-                          searchCont.text.isEmpty ? charList : searchList;
+                        List data =
+                            searchCont.text.isEmpty ? charList : searchList;
 
-                      return searchCont.text.isNotEmpty && searchList.isEmpty
-                          ? Center(
-                              child: Text("No Data"),
-                            )
-                          : SingleChildScrollView(
-                              child: Container(
-                                // color: Colors.amber,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.75,
-                                child: GridView.builder(
-                                  itemCount: data.length,
-                                  shrinkWrap: true,
-                                  physics: const ClampingScrollPhysics(),
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount:
-                                        5, // number of items in each row
-                                    mainAxisSpacing:
-                                        8.0, // spacing between rows
-                                    crossAxisSpacing:
-                                        8.0, // spacing between columns
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    // return Text("data");
+                        return searchCont.text.isNotEmpty && searchList.isEmpty
+                            ? Center(
+                                child: Text("No Data"),
+                              )
+                            : SingleChildScrollView(
+                                child: Container(
+                                  // color: Colors.amber,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.75,
+                                  child: GridView.builder(
+                                    itemCount: data.length,
+                                    shrinkWrap: true,
+                                    physics: const ClampingScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          5, // number of items in each row
+                                      mainAxisSpacing:
+                                          8.0, // spacing between rows
+                                      crossAxisSpacing:
+                                          8.0, // spacing between columns
+                                    ),
+                                    itemBuilder: (context, index) {
+                                      // return Text("data");
 
-                                    return GestureDetector(
-                                      onLongPress: () async {
-                                        await VoteServices().deleteChar(
-                                            snapshot.data!.docs[index].id,
-                                            context);
+                                      return GestureDetector(
+                                        onLongPress: () async {
+                                          await VoteServices().deleteChar(
+                                              snapshot.data!.docs[index].id,
+                                              context);
 
-                                        AppToast(
-                                            "Char Deleted Successfully", true);
-                                      },
-                                      onTap: () async {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return CustomDialog(
-                                                initalValue: data[index]
-                                                    ['voteName'],
-                                                singleIndex:
-                                                    snapshot.data!.docs[index],
-                                              );
-                                            });
-                                        // if (itemSelected[index] == false) {
-                                        //   setState(() {
-                                        //     itemSelected[index] = !itemSelected[index];
-                                        //   });
+                                          AppToast("Char Deleted Successfully",
+                                              true);
+                                        },
+                                        onTap: () async {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return CustomDialog(
+                                                  initalValue: data[index]
+                                                      ['voteName'],
+                                                  singleIndex: snapshot
+                                                      .data!.docs[index],
+                                                );
+                                              });
+                                          // if (itemSelected[index] == false) {
+                                          //   setState(() {
+                                          //     itemSelected[index] = !itemSelected[index];
+                                          //   });
 
-                                        //   int total = int.parse(snapshot
-                                        //           .data!.docs[index]['totalVote']
-                                        //           .toString()) +
-                                        //       1;
+                                          //   int total = int.parse(snapshot
+                                          //           .data!.docs[index]['totalVote']
+                                          //           .toString()) +
+                                          //       1;
 
-                                        //   print('total: ${total}');
+                                          //   print('total: ${total}');
 
-                                        //   await VoteServices().SelectVoteByUser(
-                                        //       snapshot.data!.docs[index].id,
-                                        //       total.toString(),
-                                        //       context);
+                                          //   await VoteServices().SelectVoteByUser(
+                                          //       snapshot.data!.docs[index].id,
+                                          //       total.toString(),
+                                          //       context);
 
-                                        //   await Future.delayed(Duration(seconds: 2));
+                                          //   await Future.delayed(Duration(seconds: 2));
 
-                                        //   setState(() {
-                                        //     itemSelected[index] = !itemSelected[index];
-                                        //   });
-                                        // }
-                                      },
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        // margin: const EdgeInsets.symmetric(
-                                        //     vertical: 10, horizontal: 15),
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 2, color: Colors.white),
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        child: Text(
-                                          data[index]['voteName'],
-                                          style: TextStyle(
-                                            fontSize: 20,
+                                          //   setState(() {
+                                          //     itemSelected[index] = !itemSelected[index];
+                                          //   });
+                                          // }
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          // margin: const EdgeInsets.symmetric(
+                                          //     vertical: 10, horizontal: 15),
+                                          padding: const EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                width: 2, color: Colors.white),
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          child: Text(
+                                            data[index]['voteName'],
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                            );
-                    },
+                              );
+                      },
+                    ),
                   ),
 
                   // SizedBox(

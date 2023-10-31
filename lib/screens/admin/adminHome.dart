@@ -35,11 +35,11 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
       stream: _usersStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasError) {
-          return const Text('Something went wrong');
+          return Center(child: const Text('Something went wrong'));
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading");
+          return Center(child: const Text("Loading"));
         }
 
         for (var item in snapshot.data!.docs) {
@@ -62,12 +62,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      header(),
-                      totalVote(totalScore),
-                      topFiveCherecter(snapshot.data!.docs),
-                      charcPopularity(snapshot.data!.docs),
-                      VoteChart(
-                        docs: snapshot.data!.docs,
+                      FadeInDown(child: header()),
+                      FadeInUp(child: totalVote(totalScore)),
+                      FadeInUp(child: topFiveCherecter(snapshot.data!.docs)),
+                      FadeInUp(child: charcPopularity(snapshot.data!.docs)),
+                      FadeInUp(
+                        child: VoteChart(
+                          docs: snapshot.data!.docs,
+                        ),
                       ),
                       allVoteList(snapshot.data!.docs),
                     ],
@@ -103,7 +105,6 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
                     AdminPasswordChangeScreen());
               },
               icon: const Icon(Icons.settings))
-
         ],
       ),
     );
@@ -358,7 +359,7 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
             // height: 180,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color.fromARGB(168, 173, 200, 100),
+              color: Color.fromARGB(168, 193, 216, 128),
             ),
             child: GridView.builder(
               itemCount: docs.length,
