@@ -87,7 +87,7 @@ class _SignupPageState extends State<SignupPage> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 50.0.h),
                       child: Image.asset(
-                        "assets/pic/logo_t.jpeg",
+                        "assets/pic/ll.png",
                         height: 60.h,
                         width: 60.h,
                       ),

@@ -124,83 +124,50 @@ class _UserScreenState extends State<UserScreen> {
                         ? Center(
                             child: Text("No Data"),
                           )
-                        : Container(
-                            // color: Colors.amber,
-                            height: MediaQuery.of(context).size.height * 0.55,
-                            child: SingleChildScrollView(
-                              child: Container(
-                                // color: Colors.amber,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.75,
-                                child: ListView.builder(
-                                  itemCount: data.length,
-                                  shrinkWrap: true,
-                                  physics: const ClampingScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    // return Text("data");
+                        : ListView(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              ListView.builder(
+                                itemCount: data.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  // return Text("data");
 
-                                    return ListTile(
-                                      leading: Icon(Icons.person_3),
-                                      trailing: IconButton(
-                                          onPressed: () {
-                                            FirebaseFirestore.instance
-                                                .collection('users')
-                                                .doc(snapshot
-                                                    .data!.docs[index].id)
-                                                .delete();
-                                          },
-                                          icon: Icon(
-                                            Icons.delete_forever_rounded,
-                                            color: Colors.redAccent,
-                                          )),
-                                      title: Text(
-                                        data[index]['name'],
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                        ),
+                                  return ListTile(
+                                    leading: Icon(Icons.person_3),
+                                    trailing: IconButton(
+                                        onPressed: () {
+                                          FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(
+                                                  snapshot.data!.docs[index].id)
+                                              .delete();
+                                        },
+                                        icon: Icon(
+                                          Icons.delete_forever_rounded,
+                                          color: Colors.redAccent,
+                                        )),
+                                    title: Text(
+                                      data[index]['name'],
+                                      style: TextStyle(
+                                        fontSize: 20,
                                       ),
-                                      subtitle: Text(
-                                        data[index]['email'],
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
+                                    ),
+                                    subtitle: Text(
+                                      data[index]['email'],
+                                      style: TextStyle(
+                                        fontSize: 18,
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                            ),
+                            ],
                           );
                   },
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                // GestureDetector(
-                //   onTap: () async {
-                //     AppRoutes.push(
-                //         context, PageTransitionType.fade, SignupPage());
-                //   },
-                //   child: Container(
-                //     height: 50,
-                //     // width: 50,
-                //     alignment: Alignment.center,
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(10),
-                //         // shape: BoxShape.circle,
-                //         color: Colors.blue
-                //         //  Color.fromARGB(168, 173, 200, 100),
-                //         ),
-                //     child: Text(
-                //       "+",
-                //       style: TextStyle(
-                //         color: Colors.white,
-                //         fontSize: 22,
-                //         fontWeight: FontWeight.w600,
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
