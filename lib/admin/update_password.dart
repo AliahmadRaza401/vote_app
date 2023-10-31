@@ -83,7 +83,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                         child: GestureDetector(
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              AuthServices.changePassword(
+                              AuthServices.passwordChange(
                                   context, passwordController.text);
                             } else {
                               print("validaet");

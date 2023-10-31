@@ -1,5 +1,6 @@
 import 'package:alibhaiapp/services/admin_service.dart';
 import 'package:alibhaiapp/task/login.dart';
+import 'package:alibhaiapp/user/profileScreen.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -60,13 +61,13 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                             ),
                             IconButton(
                                 onPressed: () {
-                                  AppRoutes.pushAndRemoveUntil(
-                                    context,
-                                    PageTransitionType.fade,
-                                    const Login(),
-                                  );
+                                  AppRoutes.push(
+                                      context,
+                                      PageTransitionType.fade,
+                                      // const Login(),
+                                      UserProfileScreen());
                                 },
-                                icon: Icon(Icons.logout))
+                                icon: const Icon(Icons.person)),
                           ],
                         ),
                       ),
@@ -116,7 +117,7 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                                       total.toString(),
                                       context);
 
-                                  await Future.delayed(Duration(seconds: 2));
+                                  await Future.delayed(Duration(seconds: 1));
 
                                   setState(() {
                                     itemSelected[index] = !itemSelected[index];
@@ -157,8 +158,6 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
               );
             },
           ),
-       
-       
         ));
   }
 }

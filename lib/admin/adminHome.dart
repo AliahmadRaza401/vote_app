@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:alibhaiapp/admin/adminUpdatePassword.dart';
 import 'package:alibhaiapp/admin/line_chart.dart';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/services/shearedpref_service.dart';
@@ -95,14 +96,14 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
           ),
           IconButton(
               onPressed: () {
-                ShearedprefService.setUserLoggedIn(false);
-                AppRoutes.pushAndRemoveUntil(
-                  context,
-                  PageTransitionType.fade,
-                  const Login(),
-                );
+                AppRoutes.push(
+                    context,
+                    PageTransitionType.fade,
+                    // const Login(),
+                    AdminPasswordChangeScreen());
               },
-              icon: const Icon(Icons.logout))
+              icon: const Icon(Icons.settings))
+
         ],
       ),
     );

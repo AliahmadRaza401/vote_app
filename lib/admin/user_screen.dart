@@ -1,3 +1,4 @@
+import 'package:alibhaiapp/admin/adminUpdatePassword.dart';
 import 'package:alibhaiapp/admin/update_password.dart';
 import 'package:alibhaiapp/task/login.dart';
 import 'package:alibhaiapp/task/singUp.dart';
@@ -39,17 +40,6 @@ class _UserScreenState extends State<UserScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListTile(
-                  onTap: (){
-                      AppRoutes.push(
-        context,
-        PageTransitionType.fade,
-        const UpdatePasswordScreen(),
-      );
-                  },
-                  title: Text('update Password'),
-                  trailing: Icon(Icons.password),
-                ),
                 Text(
                   'Users ',
                   style: TextStyle(
@@ -60,26 +50,56 @@ class _UserScreenState extends State<UserScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  child: customInputField(
-                    searchCont,
-                    searFocusNode,
-                    "Search User",
-                    MultiValidator([]),
-                    onPressed: () {},
-                    onChanged: (e) {
-                      print(charList.length);
-                      searchList = charList
-                          .where((element) => element['name']
-                              .toString()
-                              .toLowerCase()
-                              .contains(e.toString().toLowerCase()))
-                          .toList();
-                      setState(() {});
-                    },
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width * 0.75,
+                      child: customInputField(
+                        searchCont,
+                        searFocusNode,
+                        "Search User",
+                        MultiValidator([]),
+                        onPressed: () {},
+                        onChanged: (e) {
+                          print(charList.length);
+                          searchList = charList
+                              .where((element) => element['name']
+                                  .toString()
+                                  .toLowerCase()
+                                  .contains(e.toString().toLowerCase()))
+                              .toList();
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        AppRoutes.push(
+                            context, PageTransitionType.fade, SignupPage());
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            // shape: BoxShape.circle,
+                            color: Colors.blue
+                            //  Color.fromARGB(168, 173, 200, 100),
+                            ),
+                        child: Text(
+                          "+",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 20,
@@ -156,31 +176,31 @@ class _UserScreenState extends State<UserScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    AppRoutes.push(
-                        context, PageTransitionType.fade, SignupPage());
-                  },
-                  child: Container(
-                    height: 50,
-                    // width: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        // shape: BoxShape.circle,
-                        color: Colors.blue
-                        //  Color.fromARGB(168, 173, 200, 100),
-                        ),
-                    child: Text(
-                      "+",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () async {
+                //     AppRoutes.push(
+                //         context, PageTransitionType.fade, SignupPage());
+                //   },
+                //   child: Container(
+                //     height: 50,
+                //     // width: 50,
+                //     alignment: Alignment.center,
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(10),
+                //         // shape: BoxShape.circle,
+                //         color: Colors.blue
+                //         //  Color.fromARGB(168, 173, 200, 100),
+                //         ),
+                //     child: Text(
+                //       "+",
+                //       style: TextStyle(
+                //         color: Colors.white,
+                //         fontSize: 22,
+                //         fontWeight: FontWeight.w600,
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
