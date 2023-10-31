@@ -359,37 +359,91 @@ class _HomeAdminScreenState extends State<HomeAdminScreen> {
               borderRadius: BorderRadius.circular(20),
               color: const Color.fromARGB(168, 173, 200, 100),
             ),
-            child: ListView.builder(
+            child: GridView.builder(
               itemCount: docs.length,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 0.0,
+                  mainAxisSpacing: 0.0),
               itemBuilder: (context, index) {
                 return Container(
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  width: 30,
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  // width: 30,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(15)),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
-                      Text(
-                        docs[index]['voteName'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: double.maxFinite,
+                          height: double.maxFinite,
+                          decoration: BoxDecoration(
+                              color: Colors.amber.withOpacity(0.5),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              )),
+                          child: Text(
+                            docs[index]['voteName'],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                        ),
                       ),
-                      const Divider(
-                        color: Colors.amber,
-                        thickness: 2,
-                      ),
-                      Text(
-                        docs[index]['totalVote'].toString(),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            docs[index]['totalVote'].toString(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       )
                     ],
                   ),
                 );
               },
             )),
+
+        //  ListView.builder(
+        //   itemCount: docs.length,
+        //   shrinkWrap: true,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemBuilder: (context, index) {
+        //     return Container(
+        //       margin:
+        //           const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        //       padding: const EdgeInsets.symmetric(vertical: 5),
+        //       width: 30,
+        //       decoration: BoxDecoration(
+        //           color: Colors.white,
+        //           borderRadius: BorderRadius.circular(15)),
+        //       child: Column(
+        //         children: [
+        //           Text(
+        //             docs[index]['voteName'],
+        //             style: TextStyle(fontWeight: FontWeight.bold),
+        //           ),
+        //           const Divider(
+        //             color: Colors.amber,
+        //             thickness: 2,
+        //           ),
+        //           Text(
+        //             docs[index]['totalVote'].toString(),
+        //           )
+        //         ],
+        //       ),
+        //     );
+        //   },
+        // )),
       ],
     );
   }
