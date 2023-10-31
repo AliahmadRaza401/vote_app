@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:alibhaiapp/admin/adminUpdatePassword.dart';
-import 'package:alibhaiapp/admin/line_chart.dart';
+import 'package:alibhaiapp/screens/admin/adminUpdatePassword.dart';
+import 'package:alibhaiapp/screens/admin/line_chart.dart';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/services/shearedpref_service.dart';
-import 'package:alibhaiapp/task/login.dart';
+import 'package:alibhaiapp/screens/Authentication/login.dart';
 import 'package:alibhaiapp/utils/images.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:animate_do/animate_do.dart';

@@ -1,5 +1,5 @@
 import 'package:alibhaiapp/services/shearedpref_service.dart';
-import 'package:alibhaiapp/splashScreen.dart';
+import 'package:alibhaiapp/screens/splash/splashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

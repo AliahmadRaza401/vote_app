@@ -1,6 +1,6 @@
-import 'package:alibhaiapp/admin/user_screen.dart';
+import 'package:alibhaiapp/screens/admin/user_screen.dart';
 import 'package:flutter/material.dart';
-import '../task/fb_Con.dart';
+import '../../services/auth_services.dart';
 import 'adminHome.dart';
 import 'characterScreen.dart';
 

@@ -1,7 +1,7 @@
-import 'package:alibhaiapp/admin/adminUpdatePassword.dart';
-import 'package:alibhaiapp/admin/update_password.dart';
-import 'package:alibhaiapp/task/login.dart';
-import 'package:alibhaiapp/task/singUp.dart';
+import 'package:alibhaiapp/screens/admin/adminUpdatePassword.dart';
+import 'package:alibhaiapp/screens/admin/update_password.dart';
+import 'package:alibhaiapp/screens/Authentication/login.dart';
+import 'package:alibhaiapp/screens/Authentication/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

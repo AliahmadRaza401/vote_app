@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:alibhaiapp/task/login.dart';
-import 'package:alibhaiapp/user/userHomeScreen.dart';
+import 'package:alibhaiapp/screens/Authentication/login.dart';
+import 'package:alibhaiapp/screens/user/userHomeScreen.dart';
 import 'package:alibhaiapp/utils/images.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import '../services/shearedpref_service.dart';
-import 'admin/adminBottomBar.dart';
-import 'admin/adminHome.dart';
+import '../../../services/shearedpref_service.dart';
+import '../admin/adminBottomBar.dart';
+import '../admin/adminHome.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName = "/splash";

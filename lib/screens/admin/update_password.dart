@@ -1,6 +1,6 @@
 import 'package:alibhaiapp/provider/auth_provider.dart';
-import 'package:alibhaiapp/task/fb_Con.dart';
-import 'package:alibhaiapp/task/singUp.dart';
+import 'package:alibhaiapp/services/auth_services.dart';
+import 'package:alibhaiapp/screens/Authentication/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';

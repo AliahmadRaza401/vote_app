@@ -1,28 +1,23 @@
 import 'dart:developer';
+
 import 'package:alibhaiapp/provider/auth_provider.dart';
-import 'package:alibhaiapp/services/shearedpref_service.dart';
-import 'package:alibhaiapp/task/fb_Con.dart';
-import 'package:alibhaiapp/task/singUp.dart';
+import 'package:alibhaiapp/services/auth_services.dart';
+import 'package:alibhaiapp/screens/Authentication/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import '../task/login.dart';
-import 'adminBottomBar.dart';
-
-class AdminPasswordChangeScreen extends StatefulWidget {
-  AdminPasswordChangeScreen({Key? key}) : super(key: key);
+class UserProfileScreen extends StatefulWidget {
+  UserProfileScreen({Key? key}) : super(key: key);
 
   @override
-  State<AdminPasswordChangeScreen> createState() =>
-      _AdminPasswordChangeScreenState();
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
 }
 
-class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
+class _UserProfileScreenState extends State<UserProfileScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -58,7 +53,7 @@ class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
         elevation: 0.0,
         backgroundColor: Colors.transparent,
         title: const Text(
-          'Update Password',
+          'User Profile',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -66,19 +61,14 @@ class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {
-                ShearedprefService.setUserLoggedIn(false);
-                ShearedprefService.setUserTpe('');
-                AppRoutes.pushAndRemoveUntil(
-                  context,
-                  PageTransitionType.fade,
-                  const Login(),
-                );
-              },
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.black,
-              ))
+            onPressed: () {
+              AuthServices.signOut(context);
+            },
+            icon: const Icon(
+              Icons.login_outlined,
+              color: Colors.black,
+            ),
+          )
         ],
       ),
       body: Form(
@@ -127,21 +117,9 @@ class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
                                   if (passwordController.text.toString() ==
                                       confirmPasswordController.text
                                           .toString()) {
-                                    Provider.of<AuthProvider>(context,
-                                            listen: false)
-                                        .isLoading(true);
-                                    ShearedprefService.setAdminPassword(
-                                        passwordController.text);
-                                    AppToast(
-                                        'Password Changed Successfully', false);
-
-                                    Provider.of<AuthProvider>(context,
-                                            listen: false)
-                                        .isLoading(false);
-                                    AppRoutes.pushAndRemoveUntil(
+                                    AuthServices.passwordChange(
                                       context,
-                                      PageTransitionType.fade,
-                                      const AdminBottomNavigationBarScreen(),
+                                      passwordController.text,
                                     );
                                   } else {
                                     AppToast(
@@ -149,7 +127,7 @@ class _AdminPasswordChangeScreenState extends State<AdminPasswordChangeScreen> {
                                         true);
                                   }
                                 } else {
-                                  AppToast('Please Validate First', true);
+                                  AppToast('Please Validate First', false);
                                 }
                               },
                               child: Container(

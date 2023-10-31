@@ -1,11 +1,9 @@
 import 'dart:developer';
 
-import 'package:alibhaiapp/admin/adminHome.dart';
+import 'package:alibhaiapp/screens/admin/adminHome.dart';
 import 'package:alibhaiapp/provider/auth_provider.dart';
-import 'package:alibhaiapp/task/login.dart';
-import 'package:alibhaiapp/task/motion_toast.dart';
-import 'package:alibhaiapp/task/navi_bar.dart';
-import 'package:alibhaiapp/user/userHomeScreen.dart';
+import 'package:alibhaiapp/screens/Authentication/login.dart';
+import 'package:alibhaiapp/screens/user/userHomeScreen.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -15,8 +13,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import '../admin/adminBottomBar.dart';
-import '../services/shearedpref_service.dart';
+import '../screens/admin/adminBottomBar.dart';
+import 'shearedpref_service.dart';
 
 class AuthServices {
   static var errorMessage;

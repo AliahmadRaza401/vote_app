@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:alibhaiapp/services/admin_service.dart';
 import 'package:alibhaiapp/models/adminVoteAddModel.dart';
 import 'package:alibhaiapp/provider/auth_provider.dart';
-import 'package:alibhaiapp/task/singUp.dart';
+import 'package:alibhaiapp/screens/Authentication/singUp.dart';
 import 'package:alibhaiapp/widgets/app_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

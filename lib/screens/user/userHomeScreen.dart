@@ -1,12 +1,12 @@
 import 'package:alibhaiapp/services/admin_service.dart';
-import 'package:alibhaiapp/task/login.dart';
-import 'package:alibhaiapp/user/profileScreen.dart';
+import 'package:alibhaiapp/screens/Authentication/login.dart';
+import 'package:alibhaiapp/screens/user/profileScreen.dart';
 import 'package:alibhaiapp/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../task/fb_Con.dart';
+import '../../services/auth_services.dart';
 
 class UserHomeScreen extends StatefulWidget {
   const UserHomeScreen({super.key});
